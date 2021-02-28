@@ -1,6 +1,6 @@
 import React from 'react';
-import Count from './count';
-import CounterProvider from './counterContext';
+import Count from './components/count';
+import CounterProvider from './context/counterContext';
 
 
 const App = () => {
