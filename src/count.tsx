@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import { decreaseAction, increaseAction } from './counterContext'
-import { counterContext } from './counterContext'
+import { counterStateContext, counterDispatchContext } from './counterContext'
 
 const Count = () => {
-    const [state, dispatch] = useContext(counterContext)
+    const state = useContext(counterStateContext)
+    const dispatch = useContext(counterDispatchContext)
+
     return (
         <div>
             <p>The count is {state.count}</p>

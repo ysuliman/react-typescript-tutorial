@@ -30,9 +30,8 @@ const counterReducer = (state: counterState, action: counterAction) => {
     };
 }
 
-export const counterContext = React.createContext
-    <[state: Partial<counterState>, dispatch: React.Dispatch<counterAction>]>
-    ([{}, () => null]);
+export const counterStateContext = React.createContext<Partial<counterState>>({});
+export const counterDispatchContext = React.createContext<React.Dispatch<counterAction>>(() => null);
 
 type Props = {
     title?: string;
@@ -43,9 +42,11 @@ const CounterProvider = (props: Props) => {
     const [state, dispatch] = useReducer(counterReducer, initialCount)
 
     return (
-        <counterContext.Provider value={[state, dispatch]}>
-            {props.children}
-        </counterContext.Provider>
+        <counterDispatchContext.Provider value={dispatch}>
+            <counterStateContext.Provider value={state}>
+                {props.children}
+            </counterStateContext.Provider>
+        </counterDispatchContext.Provider>
     )
 }
 
