@@ -1,4 +1,5 @@
-import React, { useReducer } from 'react'
+import React from 'react'
+import { useImmerReducer } from 'use-immer';
 
 //Create counter reducer action interface and actions to be dispatched
 export interface counterAction {
@@ -19,26 +20,26 @@ export const initialCount: counterState = { count: 0 };
 
 
 //Create counter reducer which will take in the previous state and dispatched action
-const counterReducer = (state: counterState, action: counterAction) => {
+const counterReducer = (draft: counterState, action: counterAction) => {
     switch (action.type) {
-        case 'increment':
-            return {
-                ...state, count: state.count + 1
-            }
-        case 'decrement':
-            return {
-                ...state, count: state.count - 1
-            }
-        case 'increment 5':
-            return {
-                ...state, count: state.count + 5
-            }
-        case 'decrement 5':
-            return {
-                ...state, count: state.count - 5
-            }
-
-        default: return state
+        case 'increment': {
+            draft.count += 1
+            return;
+        }
+        case 'decrement': {
+            draft.count -= 1
+            return;
+        }
+        case 'increment 5': {
+            draft.count += 5
+            return;
+        }
+        case 'decrement 5': {
+            draft.count -= 5
+            return;
+        }
+        default:
+            return;
     };
 }
 
@@ -56,7 +57,7 @@ type Props = {
 // available throughout the child components via usecontext
 const CounterProvider = (props: Props) => {
     //Get the state and dispatch function for the counter reducer initialized with the intitial count
-    const [state, dispatch] = useReducer(counterReducer, initialCount)
+    const [state, dispatch] = useImmerReducer(counterReducer, initialCount)
 
     return (
         <counterDispatchContext.Provider value={dispatch}>
